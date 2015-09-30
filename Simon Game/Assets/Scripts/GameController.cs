@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -11,7 +12,12 @@ public class GameController : MonoBehaviour {
 	public float speedMult;
 	private AudioSource audioSource;
 	public AudioClip failure;
-	public GUIText text;
+	public Text gameOverText;
+	public Text scoreText;
+	public Text highScoreText;
+	int score = 0;
+	int highScore = 0;
+	bool gameOver;
 
 	// Use this for initialization
 	void Start () {
@@ -20,10 +26,21 @@ public class GameController : MonoBehaviour {
 		playerMoves = new List<ButtonController> ();
 		Debug.Log (pattern.ToString());
 		StartCoroutine(AddAndDisplayPattern());
+		gameOverText.enabled = false;
 	}
 
 	void Update() {
+		highScoreText.text = "Highscore: " + highScore;
+		scoreText.text = "Score: " + score;
 
+		if (gameOver && Input.anyKeyDown) {
+			gameOver = false;
+			gameOverText.enabled = false;
+			pattern = new List<ButtonController>();
+			playerMoves = new List<ButtonController>();
+			score = 0;
+			StartCoroutine(AddAndDisplayPattern());
+		}
 	}
 
 	IEnumerator AddAndDisplayPattern() {
@@ -71,17 +88,28 @@ public class GameController : MonoBehaviour {
 			buttons[1].canClick = false;
 			buttons[2].canClick = false;
 			buttons[3].canClick = false;
+			gameOver = true;
+			gameOverText.enabled = true;
 			return;
 		} else {
+			//play button sound
 			audioSource.PlayOneShot(button.clip);
 		}
-
+		// at end of pattern list, reset lists and add to pattern
 		if (playerMoves.Count == pattern.Count) {
+			updateScores();
 			playerMoves = new List<ButtonController>();
 			StartCoroutine(AddAndDisplayPattern());
 		}
 	}
 
+	void updateScores() {
+		score++;
+		if (score > highScore) {
+			highScore = score;
+		}
+
+	}
 	public bool CheckMove() {
 	
 		return playerMoves [playerMoves.Count-1].name == pattern [playerMoves.Count-1].name;
