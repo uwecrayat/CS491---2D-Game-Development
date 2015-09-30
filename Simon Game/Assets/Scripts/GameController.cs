@@ -39,6 +39,7 @@ public class GameController : MonoBehaviour {
 			pattern = new List<ButtonController>();
 			playerMoves = new List<ButtonController>();
 			score = 0;
+			timeBetweenButtonDisplay = 1f;
 			StartCoroutine(AddAndDisplayPattern());
 		}
 	}
