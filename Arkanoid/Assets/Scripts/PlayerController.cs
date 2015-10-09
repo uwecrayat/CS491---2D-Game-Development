@@ -28,8 +28,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void FixedUpdate() {
-		print (push * 10);
-		rb2D.AddForce(new Vector2(push * 10, 0));
+//		rb2D.AddForce(new Vector2(push * 10, 0));
 	}
 
 	void ChangeState(string state) {
