@@ -4,7 +4,7 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
 	private Animator animator;
 	private Rigidbody2D rb2D;
-	private float push;
+	public float speed;
 
 	public int state;
 	// Use this for initialization
@@ -17,8 +17,9 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		push = Input.GetAxis ("Horizontal");
-	if (Input.GetKeyDown(KeyCode.Space)) {
+		float push = Input.GetAxis ("Horizontal");
+		rb2D.velocity = new Vector3 (push * speed, 0, 0);
+	if (Input.GetKeyDown(KeyCode.RightShift)) {
 			ChangeState("large");
 	}
 
