@@ -50,10 +50,10 @@ public class BallController : MonoBehaviour {
 		print (velocity);
 		initVel = velocity;
 		rb2D.velocity = velocity;
-		if (hitName == "paddle") {
-			ballInPlay = false;
-			initVel.y = Mathf.Abs(initVel.y);
-			print ("paddle hit " + velocity);
-		}	
+//		if (hitName == "paddle") {
+//			ballInPlay = false;
+//			initVel.y = Mathf.Abs(initVel.y);
+//			print ("paddle hit " + velocity);
+//		}	
 	}
 }
