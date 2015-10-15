@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour {
 		rb2D = GetComponent<Rigidbody2D> ();
 		animator = GetComponentInChildren<Animator> ();
 		animator.SetInteger ("State", -1);
-//		transform.position = new Vector3 (-1.55f, 0f, 0f);
 	}
 	
 	// Update is called once per frame
@@ -26,10 +25,6 @@ public class PlayerController : MonoBehaviour {
 	if (Input.GetKeyDown(KeyCode.LeftShift)) {
 			ChangeState("revert");
 		}
-	}
-
-	void FixedUpdate() {
-//		rb2D.AddForce(new Vector2(push * 10, 0));
 	}
 
 	void ChangeState(string state) {
