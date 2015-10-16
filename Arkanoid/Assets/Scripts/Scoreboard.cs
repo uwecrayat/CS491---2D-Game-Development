@@ -3,16 +3,25 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class Scoreboard : MonoBehaviour {
-	public Text score;
+	public Text currentScore;
 	public Text hiscore;
+	public int score;
+	private int highscore;
 	// Use this for initialization
 	void Start () {
-		score.text = "0";
-		hiscore.text = "0";
+		currentScore.text = "" + score;
+		hiscore.text = "" + highscore;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		currentScore.text = "" + score;
+		if (score > highscore) {
+			hiscore.text = "" + score;
+		}
+	}
+
+	public void foo() {
+		print ("foooo");
 	}
 }
