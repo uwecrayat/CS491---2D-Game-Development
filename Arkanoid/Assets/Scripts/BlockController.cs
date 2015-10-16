@@ -16,9 +16,7 @@ public class BlockController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D coll) {
-		print ("IT HIT");
 		GameObject.Find ("Canvas").GetComponent<Scoreboard>().score += points;
-		GameObject.Find ("Canvas").GetComponent<Scoreboard> ().foo ();
 		Destroy (this.gameObject);
 	}
 }

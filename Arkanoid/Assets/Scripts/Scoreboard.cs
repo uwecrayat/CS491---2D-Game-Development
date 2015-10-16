@@ -20,8 +20,4 @@ public class Scoreboard : MonoBehaviour {
 			hiscore.text = "" + score;
 		}
 	}
-
-	public void foo() {
-		print ("foooo");
-	}
 }
