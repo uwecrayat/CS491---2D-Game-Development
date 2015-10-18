@@ -9,6 +9,8 @@ public class Scoreboard : MonoBehaviour {
 	private int highscore;
 	// Use this for initialization
 	void Start () {
+        score = 0;
+        highscore = 0;
 		currentScore.text = "" + score;
 		hiscore.text = "" + highscore;
 	}
