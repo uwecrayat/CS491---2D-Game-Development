@@ -9,15 +9,26 @@ public class PlayerController : MonoBehaviour {
     private float ballSpeedMult;
     public AudioClip paddleHit;
     public AudioClip paddleStick;
-    public GameObject ball;
+    public GameObject laser;
+    public GameObject leftPaddle;
+    public GameObject rightPaddle;
+    public Sprite leftDefault;
+    public Sprite rightDefault;
+    public Sprite leftLaser;
+    public Sprite rightLaser;
     public string state;
+    public float fireRate;
+    private float nextFire;
+
     // Use this for initialization
     void Start() {
-        ballSpeedMult = 0.5f;
+        nextFire = 0f;
+        ballSpeedMult = 0.75f;
         audioSource = GetComponent<AudioSource>();
         rb2D = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
         animator.SetInteger("State", -1);
+        transform.position = new Vector2(0, -2.75f);
     }
 
     // Update is called once per frame
@@ -25,6 +36,13 @@ public class PlayerController : MonoBehaviour {
 
         float push = Input.GetAxis("Horizontal");
         rb2D.velocity = new Vector3(push * speed, 0, 0);
+        if (state == "laser" && Input.GetKeyDown(KeyCode.Space) && Time.time > nextFire) {
+            nextFire = Time.time + fireRate;
+           GameObject tmp = Instantiate(laser, new Vector3(transform.position.x - 0.17f, -2.7f, 1), Quaternion.identity) as GameObject;
+           tmp.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 5f);
+            tmp = Instantiate(laser, new Vector3(transform.position.x + 0.17f, -2.7f, 1), Quaternion.identity) as GameObject;
+            tmp.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 5f);
+        }
     }
 
     void OnCollisionEnter2D(Collision2D coll) {
@@ -42,7 +60,10 @@ public class PlayerController : MonoBehaviour {
                 state = "expand";
                 break;
             case "laser":
+                leftPaddle.GetComponent<SpriteRenderer>().sprite = leftLaser;
+                rightPaddle.GetComponent<SpriteRenderer>().sprite = rightLaser;
                 state = "laser";
+                print("laser");
                 break;
             case "slow":
                 //slow down all balls in play
@@ -57,8 +78,7 @@ public class PlayerController : MonoBehaviour {
                 Instantiate(currBall).GetComponent<Rigidbody2D>().velocity = new Vector2(1,2);
                 Instantiate(currBall).GetComponent<Rigidbody2D>().velocity = new Vector2(2, 1);
                 state = "multi";
-                break;
-            
+                break;            
         }
         //revert size if any other powerup
         if (animator.GetInteger("State") == 1 && tag != "expand") {
@@ -70,6 +90,10 @@ public class PlayerController : MonoBehaviour {
             for (int i = 0; i < balls.Length; i++) {
                 balls[i].GetComponent<Rigidbody2D>().velocity /= ballSpeedMult;
             }
+        }
+        if (state != "laser") {
+            leftPaddle.GetComponent<SpriteRenderer>().sprite = leftDefault;
+            rightPaddle.GetComponent<SpriteRenderer>().sprite = rightDefault;
         }
         if (state == "catch" && coll.gameObject.tag == "ball") {
             //play stick sound

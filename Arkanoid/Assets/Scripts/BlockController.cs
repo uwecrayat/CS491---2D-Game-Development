@@ -18,5 +18,8 @@ public class BlockController : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D coll) {
 		GameObject.Find ("Canvas").GetComponent<Scoreboard>().score += points;
 		Destroy (this.gameObject);
+        if (coll.gameObject.tag == "laser") {
+            Destroy(coll.gameObject);
+        }
 	}
 }
