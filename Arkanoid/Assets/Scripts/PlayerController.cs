@@ -6,12 +6,14 @@ public class PlayerController : MonoBehaviour {
     private AudioSource audioSource;
     private Rigidbody2D rb2D;
     public float speed;
+    private float ballSpeedMult;
     public AudioClip paddleHit;
     public AudioClip paddleStick;
-
+    public GameObject ball;
     public string state;
     // Use this for initialization
     void Start() {
+        ballSpeedMult = 0.5f;
         audioSource = GetComponent<AudioSource>();
         rb2D = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
@@ -26,7 +28,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     void OnCollisionEnter2D(Collision2D coll) {
-
+        string prevState = state;
         string tag = coll.gameObject.tag;
         if (tag != "ball" && tag != "Untagged") {
             Destroy(coll.gameObject);
@@ -43,9 +45,17 @@ public class PlayerController : MonoBehaviour {
                 state = "laser";
                 break;
             case "slow":
+                //slow down all balls in play
+                GameObject[] balls = GameObject.FindGameObjectsWithTag("ball");
+                for (int i = 0; i < balls.Length; i++) {
+                    balls[i].GetComponent<Rigidbody2D>().velocity *= ballSpeedMult;
+                }
                 state = "slow";
                 break;
             case "multi":
+                GameObject currBall = GameObject.FindGameObjectWithTag("ball");
+                Instantiate(currBall).GetComponent<Rigidbody2D>().velocity = new Vector2(1,2);
+                Instantiate(currBall).GetComponent<Rigidbody2D>().velocity = new Vector2(2, 1);
                 state = "multi";
                 break;
             
@@ -53,6 +63,13 @@ public class PlayerController : MonoBehaviour {
         //revert size if any other powerup
         if (animator.GetInteger("State") == 1 && tag != "expand") {
             animator.SetInteger("State", 2);
+        }
+        //revert speed if new powerup != slow
+        if (prevState == "slow" && state != "slow") {
+            GameObject[] balls = GameObject.FindGameObjectsWithTag("ball");
+            for (int i = 0; i < balls.Length; i++) {
+                balls[i].GetComponent<Rigidbody2D>().velocity /= ballSpeedMult;
+            }
         }
         if (state == "catch" && coll.gameObject.tag == "ball") {
             //play stick sound

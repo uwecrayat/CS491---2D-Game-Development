@@ -72,6 +72,7 @@ public class BallController : MonoBehaviour {
 
         gameObject.GetComponent<CircleCollider2D>().enabled = false;
         velocity = Vector2.Reflect(velocity, coll.contacts[0].normal);
+        velocity *= 1.02f;
         initVel = velocity;
         rb2D.velocity = velocity;
         StartCoroutine(CollisionFix());
