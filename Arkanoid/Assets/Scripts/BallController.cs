@@ -14,6 +14,7 @@ public class BallController : MonoBehaviour {
     private int count;
     private bool blockMultiHit;
     private float ballOffset;
+    public bool gameStart;
     // Use this for initialization
     void Start() {
         audioSource = GetComponent<AudioSource>();
@@ -36,17 +37,10 @@ public class BallController : MonoBehaviour {
     void FixedUpdate() {
         velocity = rb2D.velocity;
 
-        if (Input.GetKeyDown(KeyCode.Space) && !ballInPlay) {
+        if (gameStart && Input.GetKeyDown(KeyCode.Space) && !ballInPlay) {
             ballInPlay = true;
             print("firing " + initVel);
             rb2D.velocity = (initVel);
-        }
-        if (Input.GetKeyDown(KeyCode.Z) && ballInPlay) {
-            rb2D.velocity = new Vector2(rb2D.velocity.x * 0.5f, rb2D.velocity.y * 0.5f);
-        }
-
-        if (Input.GetKeyDown(KeyCode.X) && ballInPlay) {
-            rb2D.velocity = new Vector2(rb2D.velocity.x / 0.5f, rb2D.velocity.y / 0.5f);
         }
 
         // debug path drawing

@@ -5,10 +5,12 @@ public class PlayerController : MonoBehaviour {
     private Animator animator;
     private AudioSource audioSource;
     private Rigidbody2D rb2D;
-    public float speed;
     private float ballSpeedMult;
+    private float nextFire;
+    public float fireRate;
     public AudioClip paddleHit;
     public AudioClip paddleStick;
+    public float speed;
     public GameObject laser;
     public GameObject leftPaddle;
     public GameObject rightPaddle;
@@ -17,8 +19,8 @@ public class PlayerController : MonoBehaviour {
     public Sprite leftLaser;
     public Sprite rightLaser;
     public string state;
-    public float fireRate;
-    private float nextFire;
+    public bool gameStart;
+
 
     // Use this for initialization
     void Start() {
@@ -29,17 +31,19 @@ public class PlayerController : MonoBehaviour {
         animator = GetComponentInChildren<Animator>();
         animator.SetInteger("State", -1);
         //transform.position = new Vector2(0, -2.75f);
+        //audioSource.PlayOneShot(gameStart);
     }
 
     // Update is called once per frame
     void Update() {
-
-        float push = Input.GetAxis("Horizontal");
-        rb2D.velocity = new Vector3(push * speed, 0, 0);
+        if (gameStart) {
+            float push = Input.GetAxis("Horizontal");
+            rb2D.velocity = new Vector3(push * speed, 0, 0);
+        }
         if (state == "laser" && Input.GetKeyDown(KeyCode.Space) && Time.time > nextFire) {
             nextFire = Time.time + fireRate;
-           GameObject tmp = Instantiate(laser, new Vector3(transform.position.x - 0.17f, -2.7f, 1), Quaternion.identity) as GameObject;
-           tmp.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 5f);
+            GameObject tmp = Instantiate(laser, new Vector3(transform.position.x - 0.17f, -2.7f, 1), Quaternion.identity) as GameObject;
+            tmp.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 5f);
             tmp = Instantiate(laser, new Vector3(transform.position.x + 0.17f, -2.7f, 1), Quaternion.identity) as GameObject;
             tmp.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 5f);
         }
@@ -75,10 +79,10 @@ public class PlayerController : MonoBehaviour {
                 break;
             case "multi":
                 GameObject currBall = GameObject.FindGameObjectWithTag("ball");
-                Instantiate(currBall).GetComponent<Rigidbody2D>().velocity = new Vector2(1,2);
+                Instantiate(currBall).GetComponent<Rigidbody2D>().velocity = new Vector2(1, 2);
                 Instantiate(currBall).GetComponent<Rigidbody2D>().velocity = new Vector2(2, 1);
                 state = "multi";
-                break;            
+                break;
         }
         //revert size if any other powerup
         if (animator.GetInteger("State") == 1 && tag != "expand") {

@@ -17,6 +17,10 @@ public class Scoreboard : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (!GetComponent<AudioSource>().isPlaying) {
+            GameObject.Find("Player").GetComponent<PlayerController>().gameStart = true;
+            GameObject.Find("Ball").GetComponent<BallController>().gameStart = true;
+        }
 		currentScore.text = "" + score;
 		if (score > highscore) {
 			hiscore.text = "" + score;
