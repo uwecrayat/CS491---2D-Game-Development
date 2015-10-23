@@ -52,8 +52,8 @@ public class BallController : MonoBehaviour {
         // debug path drawing
         //if (ballInPlay) {
         //    count++;
-        //    lr.SetVertexCount (count);
-        //lr.SetPosition (count - 1, transform.position);
+        //    lr.SetVertexCount(count);
+        //    lr.SetPosition(count - 1, transform.position);
         //}
     }
 
@@ -70,7 +70,7 @@ public class BallController : MonoBehaviour {
         }
         ballOffset = player.transform.position.x - coll.contacts[0].point.x;
 
-        gameObject.GetComponent<CircleCollider2D>().enabled = false;
+        //gameObject.GetComponent<CircleCollider2D>().enabled = false;
         velocity = Vector2.Reflect(velocity, coll.contacts[0].normal);
         velocity *= 1.02f;
         initVel = velocity;
@@ -79,7 +79,7 @@ public class BallController : MonoBehaviour {
     }
 
     IEnumerator CollisionFix() {
-        yield return new WaitForSeconds(0.01f);
+        yield return new WaitForSeconds(0.05f);
         gameObject.GetComponent<CircleCollider2D>().enabled = true;
     }
 

@@ -28,7 +28,7 @@ public class PlayerController : MonoBehaviour {
         rb2D = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
         animator.SetInteger("State", -1);
-        transform.position = new Vector2(0, -2.75f);
+        //transform.position = new Vector2(0, -2.75f);
     }
 
     // Update is called once per frame
