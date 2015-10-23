@@ -7,10 +7,17 @@ public class Scoreboard : MonoBehaviour {
 	public Text hiscore;
 	public int score;
 	private int highscore;
+
+	void Awake() {
+		if (!PlayerPrefs.HasKey ("highscore")) {
+			PlayerPrefs.SetInt("highscore", 0);
+		}
+	}
+
 	// Use this for initialization
 	void Start () {
-        score = 0;
-        highscore = 0;
+		score = 0;
+		highscore = PlayerPrefs.GetInt ("highscore");
 		currentScore.text = "" + score;
 		hiscore.text = "" + highscore;
 	}
@@ -21,9 +28,11 @@ public class Scoreboard : MonoBehaviour {
             GameObject.Find("Player").GetComponent<PlayerController>().gameStart = true;
             GameObject.Find("Ball").GetComponent<BallController>().gameStart = true;
         }
-		currentScore.text = "" + score;
 		if (score > highscore) {
-			hiscore.text = "" + score;
+			highscore = score;
+			PlayerPrefs.SetInt("highscore", highscore);
 		}
+		currentScore.text = "" + score;
+		hiscore.text = "" + PlayerPrefs.GetInt ("highscore");
 	}
 }
