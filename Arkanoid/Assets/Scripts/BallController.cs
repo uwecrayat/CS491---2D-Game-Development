@@ -64,7 +64,7 @@ public class BallController : MonoBehaviour {
         }
         ballOffset = player.transform.position.x - coll.contacts[0].point.x;
 
-        //gameObject.GetComponent<CircleCollider2D>().enabled = false;
+        gameObject.GetComponent<CircleCollider2D>().enabled = false;
         velocity = Vector2.Reflect(velocity, coll.contacts[0].normal);
         velocity *= 1.02f;
         initVel = velocity;

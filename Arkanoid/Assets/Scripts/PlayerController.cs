@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
     public float fireRate;
     public AudioClip paddleHit;
     public AudioClip paddleStick;
+    public AudioClip paddleLaser;
     public float speed;
     public GameObject laser;
     public GameObject leftPaddle;
@@ -18,6 +19,7 @@ public class PlayerController : MonoBehaviour {
     public Sprite rightDefault;
     public Sprite leftLaser;
     public Sprite rightLaser;
+    public GameObject life;
     public string state;
     public bool gameStart;
 
@@ -30,8 +32,6 @@ public class PlayerController : MonoBehaviour {
         rb2D = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
         animator.SetInteger("State", -1);
-        //transform.position = new Vector2(0, -2.75f);
-        //audioSource.PlayOneShot(gameStart);
     }
 
     // Update is called once per frame
@@ -42,6 +42,7 @@ public class PlayerController : MonoBehaviour {
         }
         if (state == "laser" && Input.GetKeyDown(KeyCode.Space) && Time.time > nextFire) {
             nextFire = Time.time + fireRate;
+            audioSource.PlayOneShot(paddleLaser);
             GameObject tmp = Instantiate(laser, new Vector3(transform.position.x - 0.17f, -2.7f, 1), Quaternion.identity) as GameObject;
             tmp.GetComponent<Rigidbody2D>().velocity = new Vector2(0, 5f);
             tmp = Instantiate(laser, new Vector3(transform.position.x + 0.17f, -2.7f, 1), Quaternion.identity) as GameObject;
@@ -83,9 +84,12 @@ public class PlayerController : MonoBehaviour {
                 Instantiate(currBall).GetComponent<Rigidbody2D>().velocity = new Vector2(2, 1);
                 state = "multi";
                 break;
+            case "life":
+                Instantiate(life, new Vector2(-2f, -3.1f), Quaternion.identity);
+                break;
         }
         //revert size if any other powerup
-        if (animator.GetInteger("State") == 1 && tag != "expand") {
+        if (animator.GetInteger("State") == 1 && coll.gameObject.layer == 8 && tag != "expand") {
             animator.SetInteger("State", 2);
         }
         //revert speed if new powerup != slow
@@ -95,12 +99,14 @@ public class PlayerController : MonoBehaviour {
                 balls[i].GetComponent<Rigidbody2D>().velocity /= ballSpeedMult;
             }
         }
+        //revert paddle side sprites if not laser
         if (state != "laser") {
             leftPaddle.GetComponent<SpriteRenderer>().sprite = leftDefault;
             rightPaddle.GetComponent<SpriteRenderer>().sprite = rightDefault;
         }
         if (state == "catch" && coll.gameObject.tag == "ball") {
             //play stick sound
+            audioSource.PlayOneShot(paddleStick);
             coll.gameObject.GetComponent<BallController>().ballInPlay = false;
         } else if (coll.gameObject.tag == "ball") {
             audioSource.PlayOneShot(paddleHit);
