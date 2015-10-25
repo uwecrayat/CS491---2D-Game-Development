@@ -19,10 +19,8 @@ public class PlayerController : MonoBehaviour {
     public Sprite rightDefault;
     public Sprite leftLaser;
     public Sprite rightLaser;
-    public GameObject life;
     public string state;
     public bool gameStart;
-
 
     // Use this for initialization
     void Start() {
@@ -31,7 +29,7 @@ public class PlayerController : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
         rb2D = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
-        animator.SetInteger("State", -1);
+        animator.SetInteger("State", -1);        
     }
 
     // Update is called once per frame
@@ -57,6 +55,10 @@ public class PlayerController : MonoBehaviour {
             Destroy(coll.gameObject);
         }
         switch (tag) {
+            case "break":
+                GameObject.Find("exit").GetComponent<Animator>().enabled = true;
+               //exit sprite enabled and wall collision disabled via animation component
+                break;
             case "catch":
                 state = "catch";
                 break;
@@ -85,7 +87,7 @@ public class PlayerController : MonoBehaviour {
                 state = "multi";
                 break;
             case "life":
-                Instantiate(life, new Vector2(-2f, -3.1f), Quaternion.identity);
+                GameObject.Find("Canvas").GetComponent<Scoreboard>().lives++;
                 break;
         }
         //revert size if any other powerup

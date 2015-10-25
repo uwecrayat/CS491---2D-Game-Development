@@ -5,8 +5,10 @@ using System.Collections;
 public class Scoreboard : MonoBehaviour {
 	public Text currentScore;
 	public Text hiscore;
-	public int score;
+    public Text lifeCount;
 	private int highscore;
+    public int score;
+    public int lives;
 
 	void Awake() {
 		if (!PlayerPrefs.HasKey ("highscore")) {
@@ -17,6 +19,7 @@ public class Scoreboard : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		score = 0;
+        lives = 3;
 		highscore = PlayerPrefs.GetInt ("highscore");
 		currentScore.text = "" + score;
 		hiscore.text = "" + highscore;
@@ -34,5 +37,6 @@ public class Scoreboard : MonoBehaviour {
 		}
 		currentScore.text = "" + score;
 		hiscore.text = "" + PlayerPrefs.GetInt ("highscore");
+        lifeCount.text = "LIVES: " + lives;
 	}
 }
