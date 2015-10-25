@@ -38,6 +38,11 @@ public class PlayerController : MonoBehaviour {
             float push = Input.GetAxis("Horizontal");
             rb2D.velocity = new Vector3(push * speed, 0, 0);
         }
+        if (state != "expand") {
+            GameObject.Find("paddle_expand").GetComponent<BoxCollider2D>().enabled = false;
+        } else {
+            GameObject.Find("paddle_expand").GetComponent<BoxCollider2D>().enabled = true;
+        }
         if (state == "laser" && Input.GetKeyDown(KeyCode.Space) && Time.time > nextFire) {
             nextFire = Time.time + fireRate;
             audioSource.PlayOneShot(paddleLaser);

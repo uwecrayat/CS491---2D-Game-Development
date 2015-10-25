@@ -32,6 +32,13 @@ public class BallController : MonoBehaviour {
             transform.position = new Vector3(player.transform.position.x - ballOffset, -2.55f, 0);
             lr.SetPosition(0, transform.position);
         }
+        if(transform.position.y <= -3.5f) {
+            player.transform.position = new Vector2(0, -2.75f);
+            ballOffset = 0;
+            initVel = new Vector2(1f, 3f);
+            ballInPlay = false;
+            GameObject.Find("Canvas").GetComponent<Scoreboard>().lives--;
+        }
     }
 
     void FixedUpdate() {
@@ -64,12 +71,12 @@ public class BallController : MonoBehaviour {
         }
         ballOffset = player.transform.position.x - coll.contacts[0].point.x;
 
-        gameObject.GetComponent<CircleCollider2D>().enabled = false;
+        //gameObject.GetComponent<CircleCollider2D>().enabled = false;
         velocity = Vector2.Reflect(velocity, coll.contacts[0].normal);
         velocity *= 1.02f;
         initVel = velocity;
         rb2D.velocity = velocity;
-        StartCoroutine(CollisionFix());
+        //StartCoroutine(CollisionFix());
     }
 
     IEnumerator CollisionFix() {
