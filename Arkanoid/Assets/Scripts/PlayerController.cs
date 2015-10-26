@@ -29,7 +29,7 @@ public class PlayerController : MonoBehaviour {
         audioSource = GetComponent<AudioSource>();
         rb2D = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
-        animator.SetInteger("State", -1);        
+        animator.SetInteger("State", -1);
     }
 
     // Update is called once per frame
@@ -62,7 +62,7 @@ public class PlayerController : MonoBehaviour {
         switch (tag) {
             case "break":
                 GameObject.Find("exit").GetComponent<Animator>().enabled = true;
-               //exit sprite enabled and wall collision disabled via animation component
+                //exit sprite enabled and wall collision disabled via animation component
                 break;
             case "catch":
                 state = "catch";
@@ -87,8 +87,13 @@ public class PlayerController : MonoBehaviour {
                 break;
             case "multi":
                 GameObject currBall = GameObject.FindGameObjectWithTag("ball");
-                Instantiate(currBall).GetComponent<Rigidbody2D>().velocity = new Vector2(1, 2);
-                Instantiate(currBall).GetComponent<Rigidbody2D>().velocity = new Vector2(2, 1);
+                GameObject newBall = Instantiate(currBall) as GameObject;
+                //makes sure all generated balls are named "Ball" because I have a lot of scripts hardcoded to look for "Ball" like an idiot
+                newBall.name = "Ball";
+                newBall.GetComponent<Rigidbody2D>().velocity = new Vector2(1, 2);
+                newBall = Instantiate(currBall) as GameObject;
+                newBall.name = "Ball";
+                newBall.GetComponent<Rigidbody2D>().velocity = new Vector2(2, 1);
                 state = "multi";
                 break;
             case "life":

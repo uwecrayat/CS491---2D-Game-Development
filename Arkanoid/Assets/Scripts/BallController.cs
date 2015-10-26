@@ -32,12 +32,15 @@ public class BallController : MonoBehaviour {
             transform.position = new Vector3(player.transform.position.x - ballOffset, -2.55f, 0);
             lr.SetPosition(0, transform.position);
         }
-        if(transform.position.y <= -3.5f) {
+    
+        if(GameObject.FindGameObjectsWithTag("ball").Length == 1 && transform.position.y <= -3.5f) {
             player.transform.position = new Vector2(0, -2.75f);
             ballOffset = 0;
             initVel = new Vector2(1f, 3f);
             ballInPlay = false;
             GameObject.Find("Canvas").GetComponent<Scoreboard>().lives--;
+        } else if (transform.position.y <= -3.5f) {
+            Destroy(gameObject);
         }
     }
 

@@ -10,6 +10,7 @@ public class Scoreboard : MonoBehaviour {
     public int score;
     public int lives;
 
+
 	void Awake() {
 		if (!PlayerPrefs.HasKey ("highscore")) {
 			PlayerPrefs.SetInt("highscore", 0);
