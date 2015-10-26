@@ -29,7 +29,9 @@ public class BlockController : MonoBehaviour {
         numHits++;
         print(coll.gameObject.layer);
       if(FindGameObjectsWithLayer(9).Length == 1) {
-          Instantiate(powerups[Random.Range(0,6)], transform.position, Quaternion.identity);
+          if (Random.Range(0, 8) == 0) {
+              Instantiate(powerups[Random.Range(0, 6)], transform.position, Quaternion.identity);
+          }
       }
         if (numHits >= numHitsToBreak) {
             GameObject.Find("Canvas").GetComponent<Scoreboard>().score += points;
@@ -43,7 +45,6 @@ public class BlockController : MonoBehaviour {
         for (int i = 0; i < goArray.Length; i++) {
             if (goArray[i].layer == layer) {
                 goList.Add(goArray[i]);
-                print(goArray[i]);
             }
         }
         if (goList.Count == 0) {
