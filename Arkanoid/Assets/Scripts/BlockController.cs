@@ -9,32 +9,37 @@ public class BlockController : MonoBehaviour {
     private int numHitsToBreak;
     private int numHits;
     private Animator animator;
-    public Animation anim;
 
     // Use this for initialization
     void Start() {
         Random.Range(0, 6);
         numHits = 0;
         if (this.name.Contains("steel")) {
-            numHitsToBreak = 2;
+            numHitsToBreak = 3;
             animator = GetComponent<Animator>();
         } else {
             numHitsToBreak = 1;
         }
     }
 
+	IEnumerator waiting() {
+		yield return new WaitForSeconds (0.5f);
+		animator.SetBool("playing", false);
+	}
+
     void OnCollisionEnter2D(Collision2D coll) {
         numHits++;
         //prevent powerups if multiball
-        if (FindGameObjectsWithLayer(9).Length == 1) {
+        if (FindGameObjectsWithLayer(9).Length == 1 && !name.Contains("steel")) {
             if (Random.Range(0, 8) == 0) {
                 Instantiate(powerups[Random.Range(0, 6)], transform.position, Quaternion.identity);
             }
         }
         if (name.Contains("steel") && numHits < numHitsToBreak) {
-            animator.enabled = true;
-        }
-        if (numHits >= numHitsToBreak) {
+			animator.SetBool("playing", true);
+			StartCoroutine(waiting ());
+		}
+		if (numHits >= numHitsToBreak) {
             GameObject.Find("Canvas").GetComponent<Scoreboard>().score += points;
             Destroy(this.gameObject);
 
@@ -42,20 +47,16 @@ public class BlockController : MonoBehaviour {
     }
 
     GameObject[] FindGameObjectsWithLayer(int layer) {
-        GameObject[] goArray = FindObjectsOfType<GameObject>();
-        List<GameObject> goList = new List<GameObject>();
-        for (int i = 0; i < goArray.Length; i++) {
-            if (goArray[i].layer == layer) {
-                goList.Add(goArray[i]);
-            }
-        }
-        if (goList.Count == 0) {
-            return null;
-        }
-        return goList.ToArray();
-    }
-
-    void DisableAnimator() {
-        animator.enabled = false;
-    }
+		GameObject[] goArray = FindObjectsOfType<GameObject> ();
+		List<GameObject> goList = new List<GameObject> ();
+		for (int i = 0; i < goArray.Length; i++) {
+			if (goArray [i].layer == layer) {
+				goList.Add (goArray [i]);
+			}
+		}
+		if (goList.Count == 0) {
+			return null;
+		}
+		return goList.ToArray ();
+	}
 }
