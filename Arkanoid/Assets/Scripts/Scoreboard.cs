@@ -6,6 +6,7 @@ public class Scoreboard : MonoBehaviour {
 	public Text currentScore;
 	public Text hiscore;
     public Text lifeCount;
+	public Text round;
 	private int highscore;
     public int score;
     public int lives;
@@ -30,10 +31,13 @@ public class Scoreboard : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (!GetComponent<AudioSource>().isPlaying) {
-            GameObject.Find("Player").GetComponent<PlayerController>().gameStart = true;
-            GameObject.Find("Ball").GetComponent<BallController>().gameStart = true;
-        }
+        if (!GetComponent<AudioSource> ().isPlaying) {
+			GameObject.Find ("Player").GetComponent<PlayerController> ().gameStart = true;
+			GameObject.Find ("Ball").GetComponent<BallController> ().gameStart = true;
+			round.enabled = false;
+		} else {
+			round.enabled = true;
+		}
 		if (score > highscore) {
 			highscore = score;
 			PlayerPrefs.SetInt("highscore", highscore);
