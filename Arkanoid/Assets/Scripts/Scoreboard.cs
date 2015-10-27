@@ -9,11 +9,13 @@ public class Scoreboard : MonoBehaviour {
 	private int highscore;
     public int score;
     public int lives;
-
+    public string nextLevel;
+    public string gameOverScene;
 
 	void Awake() {
 		if (!PlayerPrefs.HasKey ("highscore")) {
 			PlayerPrefs.SetInt("highscore", 0);
+            
 		}
 	}
 
@@ -39,5 +41,18 @@ public class Scoreboard : MonoBehaviour {
 		currentScore.text = "" + score;
 		hiscore.text = "" + PlayerPrefs.GetInt ("highscore");
         lifeCount.text = "LIVES: " + lives;
+
+        WinLoseCondition();
 	}
+
+    void WinLoseCondition() {
+        //win condition
+        if (GameObject.FindGameObjectsWithTag("block").Length == 0) {
+            Application.LoadLevel(nextLevel);
+        }
+        //lose condition
+        if (lives <= 0) {
+            Application.LoadLevel(gameOverScene);
+        }
+    }
 }

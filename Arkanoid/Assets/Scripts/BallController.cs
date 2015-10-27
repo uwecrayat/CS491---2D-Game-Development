@@ -42,6 +42,7 @@ public class BallController : MonoBehaviour {
         } else if (transform.position.y <= -3.5f) {
             Destroy(gameObject);
         }
+        //print(rb2D.velocity);
     }
 
     void FixedUpdate() {
