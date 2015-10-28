@@ -42,7 +42,6 @@ public class BallController : MonoBehaviour {
         } else if (transform.position.y <= -3.5f) {
             Destroy(gameObject);
         }
-        //print(rb2D.velocity);
     }
 
     void FixedUpdate() {
@@ -50,7 +49,6 @@ public class BallController : MonoBehaviour {
 
         if (gameStart && Input.GetKeyDown(KeyCode.Space) && !ballInPlay) {
             ballInPlay = true;
-            print("firing " + initVel);
             rb2D.velocity = (initVel);
         }
 

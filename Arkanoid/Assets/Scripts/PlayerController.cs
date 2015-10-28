@@ -70,7 +70,6 @@ public class PlayerController : MonoBehaviour {
                 leftPaddle.GetComponent<SpriteRenderer>().sprite = leftLaser;
                 rightPaddle.GetComponent<SpriteRenderer>().sprite = rightLaser;
                 state = "laser";
-                print("laser");
                 break;
             case "slow":
                 //slow down all balls in play
