@@ -56,7 +56,7 @@ public class PlayerController : MonoBehaviour {
         }
         switch (tag) {
             case "break":
-                GameObject.Find("exit").GetComponent<Animator>().enabled = true;
+			GameObject.Find("exit").GetComponent<Animator>().SetBool("canExit", true);
                 //exit sprite enabled and wall collision disabled via animation component
                 break;
             case "catch":
