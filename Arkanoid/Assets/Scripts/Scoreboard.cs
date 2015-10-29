@@ -72,9 +72,9 @@ public class Scoreboard : MonoBehaviour
 
 	void WinLoseCondition () {
 		//win condition
-		if (GameObject.FindGameObjectsWithTag ("block").Length == 0) {
+        if (GameObject.FindGameObjectsWithTag("block").Length == 0 && Application.loadedLevel != (Application.levelCount - 2)) {
 			Application.LoadLevel ("Level " + (lvlNum + 1));
-		} else if (Application.loadedLevel == (Application.levelCount - 2) && lives <= 0) {
+		} else if (lives <= 0) {
 			// lose condition
 			Application.LoadLevel ("gameOver");
 		}
