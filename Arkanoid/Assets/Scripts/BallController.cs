@@ -35,6 +35,7 @@ public class BallController : MonoBehaviour {
     
         if(GameObject.FindGameObjectsWithTag("ball").Length == 1 && transform.position.y <= -3.5f) {
             player.transform.position = new Vector2(0, -2.75f);
+            player.GetComponentInChildren<Animator>().SetInteger("State", 2);
             ballOffset = 0;
             initVel = new Vector2(1f, 3f);
             ballInPlay = false;

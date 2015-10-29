@@ -17,7 +17,7 @@ public class BlockController : MonoBehaviour
 		Random.Range (0, 6);
 		numHits = 0;
 		if (this.name.Contains ("steel")) {
-			numHitsToBreak = 3;
+			numHitsToBreak = 2;
 			animator = GetComponent<Animator> ();
 		} else {
 			numHitsToBreak = 1;

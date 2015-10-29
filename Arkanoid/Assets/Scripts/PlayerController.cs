@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
     public AudioClip paddleHit;
     public AudioClip paddleStick;
     public AudioClip paddleLaser;
+    public AudioClip paddleExpand;
     public float speed;
     public GameObject laser;
     public GameObject leftPaddle;
@@ -65,6 +66,7 @@ public class PlayerController : MonoBehaviour {
             case "expand":
                 animator.SetInteger("State", 1);
                 state = "expand";
+                audioSource.PlayOneShot(paddleExpand);
                 break;
             case "laser":
                 leftPaddle.GetComponent<SpriteRenderer>().sprite = leftLaser;
