@@ -10,7 +10,7 @@ public class PowerBar : MonoBehaviour
 	void Start ()
 	{
 		power = 0;
-//		health = Mathf.Lerp (0, 100, 5);
+//		health = Mathf.Lerp (0, maxHealth, 5);
 	}
 	
 	// Update is called once per frame
