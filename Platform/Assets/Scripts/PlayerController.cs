@@ -5,6 +5,7 @@ public class PlayerController : MonoBehaviour {
 	private Rigidbody2D rb2d;
 	public float oomph;
 	public float jumpHeight;
+    public float airMobility;
 	private bool isGrounded;
 	public Vector2 respawnPoint; //respawn point is (flag.transform.x, flag.transform.y - 0.6f)
 	public Transform GroundCheck; // Put the prefab of the ground here
@@ -17,15 +18,12 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		isGrounded = Physics2D.OverlapCircle (GroundCheck.position, 0.9f, groundLayer);
-		print (isGrounded);
 		float horizontal = Input.GetAxis ("Horizontal");
 		if (isGrounded) {
 			rb2d.AddForce (new Vector2 (horizontal * oomph, rb2d.velocity.y));
-		} else {
-			//more air mobility
-			rb2d.AddForce (new Vector2 (horizontal * oomph * 1, rb2d.velocity.y));
-
-		}
+        } else {
+            rb2d.AddForce(new Vector2(horizontal * oomph * airMobility, rb2d.velocity.y));
+        }
 
 		if (isGrounded && Input.GetButtonDown ("Jump")) {
 			rb2d.velocity = new Vector2(rb2d.velocity.x, jumpHeight);
@@ -33,6 +31,9 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter2D(Collision2D coll) {
+        if (coll.gameObject.layer == LayerMask.NameToLayer("Win")) {
+            Application.LoadLevel("win");
+        }
 		if (coll.gameObject.layer != LayerMask.NameToLayer ("Floor")) {
 			Respawn();
 		}
